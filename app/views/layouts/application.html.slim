@@ -1,0 +1,32 @@
+doctype html
+html
+  head
+    title Decisionly
+    = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true
+    = javascript_include_tag 'application', 'data-turbolinks-track' => true
+    = csrf_meta_tags
+  body
+    .ui.menu
+      =link_to root_path, class: 'item' do
+        i.icon.home
+        | Home
+      .menu.right
+        -if logged_in?
+          =link_to login_path, class: 'item', method: :delete do
+            i.icon.lock
+            | Logout
+        -else
+          =link_to login_path, class: 'item' do
+            i.icon.lock
+            | Login
+    .ui.segment
+      - flash.each do |key, value|
+        .ui.message class=key
+          i.close.icon
+          = value
+
+    .ui.three.column.grid.segment
+      .column
+      .column
+        = yield
+      .column

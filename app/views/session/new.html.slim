@@ -1,0 +1,10 @@
+
+= form_for @user, url: login_path, html:{class: 'ui form'} do |f|
+  .field
+    = f.label :name
+    = f.text_field :name
+  .field
+    = f.label :password
+    = f.password_field :password
+  .field
+    = f.submit 'Submit'

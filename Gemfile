@@ -35,6 +35,17 @@ gem 'bcrypt', '~> 3.1.7'
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
+  gem 'spring', platform: :ruby
+
+  gem 'rspec-rails', '>= 3'
+  gem 'minitest-rails'
+  gem 'minitest-reporters', '>= 0.5.0'
+  gem 'quiet_assets'
+
+  gem 'simplecov', require: false
+  gem 'capybara'
+  gem 'capybara-webkit', platform: :ruby
+  gem 'capybara-selenium'
 end
 
 group :development do

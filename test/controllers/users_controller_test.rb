@@ -1,11 +1,15 @@
-require 'test_helper'
+require "test_helper"
 
 class UsersControllerTest < ActionController::TestCase
-  setup do
-    @user = users(:one)
+
+  setup {
+    session[:user] = users(:admin).id
+  }
+  def user
+    @user ||= users :one
   end
 
-  test "should get index" do
+  def test_index
     get :index
     assert_response :success
     assert_not_nil assigns(:users)
@@ -16,39 +20,49 @@ class UsersControllerTest < ActionController::TestCase
     assert_select 'table.ui.table'
   end
 
-  test "should get new" do
+  def test_new
     get :new
     assert_response :success
   end
 
-  test "should create user" do
+  def test_create
     assert_difference('User.count') do
-      post :create, user: {  }
+      post :create, user: { email: user.email, name: user.name, password_digest: user.password_digest }
     end
 
     assert_redirected_to user_path(assigns(:user))
   end
 
-  test "should show user" do
-    get :show, id: @user
+  def test_show
+    get :show, id: user
     assert_response :success
   end
 
-  test "should get edit" do
-    get :edit, id: @user
+  def test_edit
+    get :edit, id: user
     assert_response :success
   end
 
-  test "should update user" do
-    patch :update, id: @user, user: {  }
+  def test_update
+    put :update, id: user, user: { email: user.email, name: user.name, password_digest: user.password_digest }
     assert_redirected_to user_path(assigns(:user))
   end
 
-  test "should destroy user" do
+  def test_destroy
     assert_difference('User.count', -1) do
-      delete :destroy, id: @user
+      delete :destroy, id: user
     end
 
     assert_redirected_to users_path
+  end
+
+  test 'update with invalid data' do
+    put :update, id: user, user: {email: 'abcd'}
+    assert_select 'ul > li', 'Email is invalid'
+  end
+
+  test 'create an invalid user' do
+    post :create, user: {email: 'asd'}
+    assert_select 'ul > li', 'Email is invalid'
   end
 end
