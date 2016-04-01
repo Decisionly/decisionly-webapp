@@ -36,3 +36,4 @@ bower.json
 
 .project
 *.kate-swp
+.idea
